@@ -5,10 +5,10 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.TextView
-import cn.numeron.drawable.dsl.State
-import cn.numeron.drawable.dsl.ripple
-import cn.numeron.drawable.dsl.shape
-import cn.numeron.drawable.dsl.stateList
+import cn.numeron.color.colorSelector
+import cn.numeron.drawable.selector
+import cn.numeron.drawable.shape
+import cn.numeron.drawable.State
 
 class MainActivity : AppCompatActivity() {
 
@@ -21,19 +21,25 @@ class MainActivity : AppCompatActivity() {
             it.isSelected = true
             Log.e("MainActivity", "$it clicked.")
         }
-        textView.background = stateList {
+        colorSelector {
+            addState(!State.ENABLED, Color.GRAY)
+            addState(State.PRESSED, Color.WHITE)
+            defState(Color.BLACK)
+        }
+        selector {
             addState(State.PRESSED) {
                 shape {
                     corners(8f)
                     solid(Color.parseColor("#FFA500"))
                 }
             }
-            addState(State.SELECTED + !State.ENABLED) {
+            addState(State.SELECTED + State.ENABLED + !State.ENABLED) {
                 shape {
+                    corners(8f)
                     solid(Color.parseColor("#FAF0E6"))
                 }
             }
-            setDefault {
+            defState {
                 shape {
                     corners(8f)
                     solid(Color.parseColor("#FF8C00"))

@@ -1,32 +1,32 @@
-package cn.numeron.drawable.dsl
+package cn.numeron.drawable
 
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.StateListDrawable
 
-class StateListBuilder {
+class SelectorBuilder {
 
     private var default: Drawable? = null
     private var defaultBuilder: (() -> Drawable)? = null
     private var builders = mutableListOf<StateBuilder>()
 
-    fun setDefault(drawable: Drawable): StateListBuilder {
+    fun defState(drawable: Drawable): SelectorBuilder {
         this.default = drawable
         return this
     }
 
-    fun setDefault(builder: () -> Drawable): StateListBuilder {
+    fun defState(builder: () -> Drawable): SelectorBuilder {
         defaultBuilder = builder
         return this
     }
 
-    fun addState(state: StateElement, drawable: Drawable): StateListBuilder {
+    fun addState(state: StateElement, drawable: Drawable): SelectorBuilder {
         val stateBuilder = StateBuilder(state)
         stateBuilder.drawable(drawable)
         builders.add(stateBuilder)
         return this
     }
 
-    fun addState(state: StateElement, builder: () -> Drawable): StateListBuilder {
+    fun addState(state: StateElement, builder: () -> Drawable): SelectorBuilder {
         val stateBuilder = StateBuilder(state)
         stateBuilder.drawable(builder)
         builders.add(stateBuilder)
@@ -37,11 +37,14 @@ class StateListBuilder {
         val stateListDrawable = StateListDrawable()
         for (builder in builders) {
             stateListDrawable.addState(
-                builder.stateElement.asStates(),
+                builder.stateElement.states,
                 builder.drawable ?: builder.drawableBuilder?.invoke()
             )
         }
-        stateListDrawable.addState(intArrayOf(), default ?: defaultBuilder?.invoke())
+        val defaultDrawable = default ?: defaultBuilder?.invoke()
+        if (defaultDrawable != null) {
+            stateListDrawable.addState(intArrayOf(), defaultDrawable)
+        }
         return stateListDrawable
     }
 

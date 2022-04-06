@@ -1,4 +1,4 @@
-package cn.numeron.drawable.dsl
+package cn.numeron.drawable
 
 import android.content.res.ColorStateList
 import android.graphics.drawable.Drawable
