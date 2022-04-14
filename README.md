@@ -2,6 +2,15 @@
 
 用于构建常用`drawable`实例的`kotlin-dsl`框架，包括`shape`、`ripple`以及`selector`的`drawable`实例；顺便也支持创建颜色相关的`selector`实例。
 
+### 安装方法
+
+在app模块的build.gradle文件的适当位置添加以下代码：
+```
+implementation 'cn.numeron:drawable.dsl:1.0.0'
+```
+
+### 使用方法
+
 * shape(GradientDrawable)
 ```kotlin
 val gradientDrawable = shape(Shape.RECTANGLE) {
